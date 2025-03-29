@@ -1,0 +1,13 @@
+{% extends 'layout/site.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h2>Welcome to the VOD Platform</h2>
+    <p>This is the homepage.</p>
+
+    <ul>
+        <li><a href="{{ path('app_login') }}">Login</a></li>
+        <li><a href="#">Browse products (coming soon)</a></li>
+    </ul>
+{% endblock %}

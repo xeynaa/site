@@ -1,0 +1,30 @@
+<nav>
+    <ul>
+        <li><a href="{{ path('app_accueil') }}">Home</a></li>
+
+        {% if app.user %}
+            <li><strong>Hello {{ app.user.username }}</strong></li>
+
+            {% if is_granted('ROLE_CLIENT') %}
+                {# <li><a href="{{ path('client_product_list') }}">My Products</a></li> #}
+                {# <li><a href="{{ path('client_cart') }}">My Cart</a></li> #}
+                {# <li><a href="{{ path('client_profile') }}">My Profile</a></li> #}
+            {% endif %}
+
+            {% if is_granted('ROLE_ADMIN') %}
+                {# <li><a href="{{ path('admin_user_list') }}">Manage Clients</a></li> #}
+                {# <li><a href="{{ path('admin_add_product') }}">Add Product</a></li> #}
+            {% endif %}
+
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {# <li><a href="{{ path('superadmin_add_admin') }}">Add Admin</a></li> #}
+            {% endif %}
+
+            <li><a href="{{ path('app_logout') }}">Logout</a></li>
+        {% else %}
+            <li><a href="{{ path('app_login') }}">Login</a></li>
+            {# <li><a href="{{ path('app_register') }}">Register</a></li> #}
+        {% endif %}
+    </ul>
+</nav>
+
