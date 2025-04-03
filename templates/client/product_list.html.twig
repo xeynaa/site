@@ -1,0 +1,26 @@
+<h1>Produits du magasin</h1>
+
+{% for product in products %}
+    <div style="margin-bottom: 20px">
+        <strong>{{ product.label }}</strong><br>
+        Prix : {{ product.price }} €<br>
+        Stock : {{ product.stock }}<br>
+
+        {% set quantityInCart = quantitiesInCart[product.id] ?? 0 %}
+        {% set maxQty = product.stock + quantityInCart %}
+
+        {% if maxQty > 0 %}
+            <form method="post" action="{{ path('client_cart_update', {'id': product.id}) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('update_cart_' ~ product.id) }}">
+                <select name="quantity">
+                    {% for i in -quantityInCart..maxQty %}
+                        <option value="{{ i }}" {% if i == 0 %}selected{% endif %}>{{ i }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Modifier</button>
+            </form>
+        {% else %}
+            <em>Indisponible</em>
+        {% endif %}
+    </div>
+{% endfor %}

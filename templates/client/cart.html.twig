@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mon Panier{% endblock %}
+{% block content %}
+    <h1>Mon Panier</h1>
+
+    {% if cartItems is empty %}
+        <p>Votre panier est vide.</p>
+    {% else %}
+        <table>
+            <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Prix unitaire</th>
+                <th>Quantité</th>
+                <th>Prix total</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in cartItems %}
+                <tr>
+                    <td>{{ item.product.label }}</td>
+                    <td>{{ item.product.price }} €</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.product.price * item.quantity }} €</td>
+                    <td>
+                        <a href="{{ path('client_cart_remove', { id: item.id }) }}">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <p><strong>Total :</strong> {{ total }} €</p>
+
+        <a href="{{ path('client_cart_clear') }}">Vider le panier</a>
+        <a href="{{ path('client_cart_order') }}">Commander</a>
+    {% endif %}
+{% endblock %}

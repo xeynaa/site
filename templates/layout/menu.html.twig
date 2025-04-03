@@ -1,30 +1,34 @@
-<nav>
-    <ul>
-        <li><a href="{{ path('app_accueil') }}">Home</a></li>
+{% if app.user %}
+    <li><strong>Hello {{ app.user.username }}</strong></li>
 
-        {% if app.user %}
-            <li><strong>Hello {{ app.user.username }}</strong></li>
+    {% if is_granted('ROLE_CLIENT') %}
+        <li><a href="{{ path('client_products') }}"> Mes Produits</a></li>
+        <li><a href="{{ path('client_cart') }}"> Mon Panier</a></li>
+        <li><a href="{{ path('client_profile') }}">Mon Profil</a></li>
 
-            {% if is_granted('ROLE_CLIENT') %}
-                {# <li><a href="{{ path('client_product_list') }}">My Products</a></li> #}
-                {# <li><a href="{{ path('client_cart') }}">My Cart</a></li> #}
-                {# <li><a href="{{ path('client_profile') }}">My Profile</a></li> #}
-            {% endif %}
-
-            {% if is_granted('ROLE_ADMIN') %}
-                {# <li><a href="{{ path('admin_user_list') }}">Manage Clients</a></li> #}
-                {# <li><a href="{{ path('admin_add_product') }}">Add Product</a></li> #}
-            {% endif %}
-
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                {# <li><a href="{{ path('superadmin_add_admin') }}">Add Admin</a></li> #}
-            {% endif %}
-
-            <li><a href="{{ path('app_logout') }}">Logout</a></li>
-        {% else %}
-            <li><a href="{{ path('app_login') }}">Login</a></li>
-            {# <li><a href="{{ path('app_register') }}">Register</a></li> #}
+        {# Affichage du nombre total d’articles dans le panier #}
+        {% set cartCount = 0 %}
+        {% for item in app.user.cartItems ?? [] %}
+            {% set cartCount = cartCount + item.quantity %}
+        {% endfor %}
+        {% if cartCount > 0 %}
+            <li><strong>Panier:</strong> {{ cartCount }} article{{ cartCount > 1 ? 's' }}</li>
         {% endif %}
-    </ul>
-</nav>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <li><a href="https://fr.wikipedia.org/wiki/Pong" target="_blank"> Pong</a></li>
+    {% endif %}
+
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        {# <li><a href="{{ path('superadmin_add_admin') }}">Add Admin</a></li> #}
+    {% endif %}
+
+    <li><a href="{{ path('app_logout') }}"> Logout</a></li>
+{% else %}
+    <li><a href="{{ path('app_login') }}"> Login</a></li>
+    <li><a href="{{ path('app_register') }}"> Register</a></li>
+{% endif %}
+
+
 

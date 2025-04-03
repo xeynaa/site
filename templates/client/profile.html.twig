@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+    <h1>My Profile</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="flash-success">{{ message }}</div>
+    {% endfor %}
+
+    {% if ProfileForm is defined %}
+        {{ form_start(ProfileForm) }}
+
+        <div>
+            {{ form_label(ProfileForm.username) }}
+            {{ form_widget(ProfileForm.username) }}
+        </div>
+
+        <div>
+            {{ form_label(ProfileForm.firstName) }}
+            {{ form_widget(ProfileForm.firstName) }}
+        </div>
+
+        <div>
+            {{ form_label(ProfileForm.lastName) }}
+            {{ form_widget(ProfileForm.lastName) }}
+        </div>
+
+        <div>
+            {{ form_label(ProfileForm.birthDate) }}
+            {{ form_widget(ProfileForm.birthDate) }}
+        </div>
+
+        <div>
+            {{ form_label(ProfileForm.country) }}
+            {{ form_widget(ProfileForm.country) }}
+        </div>
+
+        <div>
+            {{ form_label(ProfileForm.plainPassword) }}
+            {{ form_widget(ProfileForm.plainPassword) }}
+        </div>
+
+        <button type="submit">Update</button>
+        {{ form_end(ProfileForm) }}
+    {% else %}
+        <p>You are not connected.</p>
+    {% endif %}
+{% endblock %}
+
